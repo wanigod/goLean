@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./main.css" />
     <title>Frog</title>
 </head>
+
 <body>
     <h1>hello</h1>
     <a href="./home.html">home</a>
+    <button onclick="getData()">getData</button>
+    <button onclick="saveData()">saveData</button>
+    
+    <script>
+
+
+        function getData() {
+            fetch('/api/getData')
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (myJson) {
+                    console.log(myJson);
+                });
+        }
+
+        function saveData(){
+            fetch('/api/saveData')
+                .then(function (response) {
+                    return response.status
+                })
+                .then(function (myJson) {
+                    console.log(myJson);
+                }); 
+        }
+    </script>
 </body>
+
 </html>
