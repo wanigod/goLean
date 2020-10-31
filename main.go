@@ -17,7 +17,24 @@ func main() {
 
 }
 
-func apiHandle() {
+type UserDto struct {
+	Id    int    `json: "id"`
+	Name  string `json: "name"`
+	Score int    `json: "score`
+}
+
+func startServer() {
+	fmt.Println("server-start", time.Now())
+	providerApi()
+	provideHtml()
+	http.ListenAndServe(":8090", nil)
+}
+
+func provideHtml() {
+	http.Handle("/", http.FileServer(http.Dir("./f2e")))
+}
+
+func providerApi() {
 	http.HandleFunc("/api/getData", getData)
 	http.HandleFunc("/api/saveData", saveData)
 
@@ -32,12 +49,6 @@ func getData(w http.ResponseWriter, r *http.Request) {
 func saveData(w http.ResponseWriter, r *http.Request) {
 	writeJsonFile()
 	w.WriteHeader(200)
-}
-
-type UserDto struct {
-	Id    int    `json: "id"`
-	Name  string `json: "name"`
-	Score int    `json: "score`
 }
 
 func readJsonFile() []UserDto {
@@ -57,11 +68,4 @@ func writeJsonFile() {
 	}
 	file, _ := json.MarshalIndent(data, "", " ")
 	_ = ioutil.WriteFile("./jsonData/user.json", file, 0644)
-}
-
-func startServer() {
-	fmt.Println("server-start", time.Now())
-	apiHandle()
-	http.Handle("/", http.FileServer(http.Dir("./f2e")))
-	http.ListenAndServe(":8090", nil)
 }
